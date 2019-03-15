@@ -15,11 +15,12 @@ class Appointments extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.match) {
+    if (this.props.match && sessionStorage.user) {
       $.ajax({
         type: 'GET',
         url: `http://localhost:3001/appointments`,
         dataType: 'JSON',
+        headers: JSON.parse(sessionStorage.user),
       }).done(data => {
         this.setState(prevState => ({
           ...prevState,
