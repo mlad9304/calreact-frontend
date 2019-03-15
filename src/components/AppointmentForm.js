@@ -82,6 +82,8 @@ class AppointmentForm extends React.Component {
             formErrors = [' should not be in the past'];
           }
         break;
+      default:
+        break;
     }
     this.setState(prevState => ({
       ...prevState,
