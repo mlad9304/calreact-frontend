@@ -26,7 +26,8 @@ class AppointmentForm extends React.Component {
       $.ajax({
         type: "GET",
         url: `http://localhost:3001/appointments/${this.props.match.params.id}`,
-        dataType: "JSON"
+        dataType: "JSON",
+        headers: JSON.parse(sessionStorage.user),
       }).done((data) => {
         this.setState({
           title: {value: data.title, valid: true},
@@ -117,7 +118,8 @@ class AppointmentForm extends React.Component {
     $.ajax({
       type: "PATCH",
       url: `http://localhost:3001/appointments/${this.props.match.params.id}`,
-      data: {appointment: appointment}
+      data: {appointment: appointment},
+      headers: JSON.parse(sessionStorage.user),
     })
     .done((data) => {
       console.log('appointment updated!');
@@ -133,15 +135,18 @@ class AppointmentForm extends React.Component {
     const { title, appt_time } = this.state;
     const { resetFormErrors } = this;
 
-    $.post(
-      'http://localhost:3001/appointments',
-      { 
+    $.ajax({
+      method: 'POST',
+      url: 'http://localhost:3001/appointments',
+      data: { 
         appointment: {
           title: title.value,
           appt_time: appt_time.value,
         },
       },
-    ).done(data => {
+      headers: JSON.parse(sessionStorage.user),
+    })
+    .done(data => {
       this.props.handleNewAppointment(data);
       resetFormErrors();
     }).fail(response => {
@@ -149,14 +154,15 @@ class AppointmentForm extends React.Component {
         ...prevState,
         formErrors: response.responseJSON,
       }));
-    });
+    });;
   };
 
   deleteAppointment = () => {
     if(window.confirm("Are you sure you want to delete this appointment?")) {
       $.ajax({
         type: "DELETE",
-        url: `http://localhost:3001/appointments/${this.props.match.params.id}`
+        url: `http://localhost:3001/appointments/${this.props.match.params.id}`,
+        headers: JSON.parse(sessionStorage.user),
       })
       .done((data) => {
         this.resetFormErrors();

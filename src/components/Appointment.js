@@ -18,6 +18,7 @@ class Appointment extends React.Component {
         type: 'GET',
         url: `http://localhost:3001/appointments/${this.props.match.params.id}`,
         dataType: 'JSON',
+        headers: JSON.parse(sessionStorage.user),
       }).done(data => {
         this.setState(prevState => ({
           ...prevState,
