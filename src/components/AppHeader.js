@@ -2,8 +2,7 @@ import React from "react"
 import { Link, Redirect } from 'react-router-dom';
 import $ from 'jquery';
 import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap/dist/css/bootstrap-theme.css';
-import { Grid, Navbar, Nav, NavItem } from 'react-bootstrap';
+import { Container, Navbar, Nav } from 'react-bootstrap';
 
 class AppHeader extends React.Component {
 
@@ -38,23 +37,20 @@ class AppHeader extends React.Component {
     if(sessionStorage.getItem('user')) {
       return (
         <React.Fragment>
-          <Navbar inverse fixedTop>
-            <Grid>
-              <Navbar.Header>
-                <Navbar.Brand>
-                  <Link to='/'>
-                    CalReact
-                  </Link>
-                </Navbar.Brand>
-                <Navbar.Toggle />
-              </Navbar.Header>
-              <Navbar.Collapse>
-                <Nav pullRight>
-                  <NavItem>{JSON.parse(sessionStorage.getItem('user')).uid}</NavItem>
-                  <NavItem eventKey={2} href="#" onClick={this.handleSignOut}>Sign out</NavItem>
-                </Nav>
-              </Navbar.Collapse>
-            </Grid>
+          <Navbar bg="dark" variant="dark" fixed="top">
+            <Container>
+              <Navbar.Brand>
+                <Link to='/'>
+                  CalReact
+                </Link>
+              </Navbar.Brand>
+              <Nav className="ml-auto">
+                <Nav.Item>
+                  <Nav.Link>{JSON.parse(sessionStorage.getItem('user')).uid}</Nav.Link>
+                </Nav.Item>
+                <Nav.Link href="#" onClick={this.handleSignOut}>Sign out</Nav.Link>
+              </Nav>
+            </Container>
           </Navbar>
         </React.Fragment>
       );
